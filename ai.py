@@ -4,11 +4,13 @@ import spacy
 nlp = spacy.load('en_core_web_sm')
 
 department_keywords = {
-    'IT Support':
-    ['login', 'password', 'email', 'computer', 'account', 'locked', 'software', 'hardware', 'integration'],
-    'Accounting': ['billing', 'invoice', 'payment', 'account', 'credit', 'debit', 'balance', 'refund', 'tax', 'prices', 'charge', 'charged'],
-    'Customer Service': ['order', 'delivery', 'return', 'shipping', 'cancel', 'exchange', 'status', 'ticket', 'shipped'],
-    'Sales': ['quote', 'pricing', 'discount', 'promotion', 'sales', 'revenue', 'commission', 'quota', 'target'],
+    'IT':
+        ['login', 'password', 'email', 'computer', 'account', 'locked', 'software', 'hardware', 'integration',
+         'compatibility', 'network', 'setup', 'data', 'installation', 'software', 'display', 'error'],
+    'Accounting': ['billing', 'invoice', 'payment', 'account', 'credit', 'debit', 'balance', 'refund', 'tax', 'prices',
+                   'charge', 'charged', 'bill', 'money', 'dollar', 'dollars', 'payroll', 'pay', 'paid', 'owe', 'owed', 'due', 'financial', 'asset', 'income', 'balance'],
+    'Customer Service': ['order', 'delivery', 'return', 'shipping', 'cancel', 'exchange', 'status', 'ticket', 'shipped',
+                         'cancellation', 'shipped', 'ship', 'tracking']
 }
 
 
@@ -37,31 +39,21 @@ def determine_category(department, text):
         else:
             return "General IT Support"
 
-    elif department == "HR":
-        if "salary" in text or "payroll" in text:
-            return "Payroll"
-        elif "leave" in text or "vacation" in text:
-            return "Leave Requests"
-        elif "benefits" in text:
-            return "Benefits and Compensation"
-        elif "hiring" in text or "recruitment" in text:
-            return "Recruitment"
+    elif department == "Accounting":
+        if "billing" in text or "invoice" in text:
+            return "Billing"
+        elif "payment" in text or "refund" in text:
+            return "Payment"
         else:
-            return "General HR Inquiries"
+            return "General Accounting"
 
-    # Add more departments and categories as needed
+    elif department == "Customer Service":
+        if "order" in text or "delivery" in text:
+            return "Order Issues"
+        elif "return" in text or "exchange" in text:
+            return "Return/Exchange"
+        else:
+            return "General Customer Service"
 
     else:
-        return "General Inquiry"
-
-
-def calculate_compound():
-
-    base_salary = 115,000
-    rate = 0.07
-    new_salary = 0
-    # write a for loop to iterate from range 1 to 5
-    for i in range(1, 6):
-        new_salary = base_salary + (base_salary * rate)
-
-    print(new_salary)
+        return "Other"
